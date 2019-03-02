@@ -14,12 +14,12 @@ Java 8 minimum, dans les lignes de commandes d'exemples on suppose que le chemin
 
 ## Lancement
 Le répertoire bin contient :
-Le jar <b>games.jar</b> dans lequel sont intégrés toutes les librairies nécessaires, pour le lancer :
-* <b>java -jar games.jar </b>
+Le jar <b>games-jar-with-dependencies.jar</b> dans lequel sont intégrés toutes les librairies nécessaires, pour le lancer :
+* <b>java -jar games-jar-with-dependencies.jar</b>
 
-Le <b>log4j2.xml</b> qui permet de gérer les log, la version embarquée dans le jar ne prend aucun log, si vous voulez tracer il faut lancer le jar en précisant de prendre ce fichier en paramètres avec la commande :
+Le <b>log4j2.xml</b> qui permet de parétrer les log, la version embarquée dans le jar ne prend que des logs fichier, si vous voulez tracer il faut lancer le jar en précisant de prendre ce fichier en paramètres avec la commande :
 
-* <b>java -Dlog4j.configurationFile=file:///c:/games/log4j2.xml -jar games.jar</b>
+* <b>java -Dlog4j.configurationFile=file:///c:/games/log4j2.xml -jar games-jar-with-dependencies.jar</b>
 
 Le <b>config.properties</b> qui contient les paramètres des jeux, ci-dessous les explications :
 * nbCasesPlusMoins=4
@@ -29,14 +29,13 @@ Le <b>config.properties</b> qui contient les paramètres des jeux, ci-dessous le
 * nbEssaisMastermind=8
 * nbValeursMastermind=6 (soit 6 couleurs matérialisées par des valeurs pour chaque chiffre de 0 à 5, minimum 6 / maximum 10)
 * modeDev=false (mode développeur pour afficher la solution à trouver <b>false</b> ou <b>true</b>)
+Si ce ficher n'existe pas, il est créé avec les valeurs par defaut au 1er lancement de l'application.
 
-Il est aussi possible d'activer le mode développeur en lançant : <b>java -jar MesJeux.jar dev </b> et de le désactiver avec : <b>java -jar MesJeux.jar nodev</b>.
-
-Des lanceurs d'exemples (.bat) avec différentes options sont disponibles dans le répertoire bin.
+Il est aussi possible d'activer le mode développeur en lançant : <b>java -jar games-jar-with-dependencies.jar dev </b> et de le désactiver avec : <b>java -jar games-jar-with-dependencies.jar nodev</b>.
 
 ## Divers
 Contenu des dossiers
-* target\ jar et config
+* target\ jar
 * doc\ Documentation
 * src\ Sources du projet (développé en utilisant IntelliJ)
 * test\ Tests unitaires (JUnit)
