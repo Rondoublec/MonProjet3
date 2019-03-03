@@ -1,4 +1,4 @@
-package fr.rbo.games;
+package fr.rbo.games.ihm;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -1,5 +1,7 @@
-package fr.rbo.games;
+package fr.rbo.games.metier;
 
+import fr.rbo.games.Main;
+import fr.rbo.games.util.Outils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

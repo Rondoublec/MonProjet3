@@ -1,5 +1,6 @@
-package fr.rbo.games;
+package fr.rbo.games.metier;
 
+import fr.rbo.games.metier.JeuPlusMoins;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,5 +1,9 @@
 package fr.rbo.games;
 
+import fr.rbo.games.ihm.Menu;
+import fr.rbo.games.metier.JeuMastermind;
+import fr.rbo.games.metier.JeuPlusMoins;
+import fr.rbo.games.util.Config;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -1,11 +1,7 @@
-package fr.rbo.games;
+package fr.rbo.games.metier;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import fr.rbo.games.metier.JeuMastermind;
 import org.junit.jupiter.api.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

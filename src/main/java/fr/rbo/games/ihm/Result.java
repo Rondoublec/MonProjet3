@@ -1,4 +1,4 @@
-package fr.rbo.games;
+package fr.rbo.games.ihm;
 
 /**
  * Affiche le r&eacute;sultat de la partie.
