@@ -25,7 +25,7 @@ public class Result {
      */
     public void afficheResultat(boolean mode, int present, int bienPlace, int[] valeur, String resultat){
 
-        if (resultat.equals("")) { // Si la chaine est vide, il faut la fabriquer, sinon on la laisse telle que fournie
+        if (resultat.equals("")) { // Si la chaine est vide, il faut la fabriquer, sinon on l'affiche directement.
             if (present > 0) {
                 resultat = present + " present";
             }

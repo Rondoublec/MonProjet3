@@ -14,62 +14,64 @@ import java.util.Arrays;
  * @author R&eacute;my Bourdoncle
  * @version 0.1
  */
+
 public class JeuMastermind {
 
     private static final boolean PROPOSITION = true;
     private static final boolean SECRET = false;
     private static final boolean HUMAIN = true;
     private static final boolean ORDINATEUR = false;
-    private int present = 0;
-    private int bienPlace = 0;
 
     private static final Logger logger = LogManager.getLogger();
 
     /**
-     * Comparaison de la s&eacute;rie &agrave; trouver et de la s&eacute;rie propos&eacute;e par le joueur.
-     *
-     * @param valeurATrouver s&eacute;rie &agrave; trouver.
-     * @param valeurSaisi s&eacute;rie propos&eacute;e par le joueur.
-     * @param nbOccurences nombre de caractères / digits dont est constituée la chaine.
-     * @return resultat = Tableau de NB_DIGIT &eacute;l&eacute;ments de la comparaison chiffre &agrave; chiffre, valeurs possibles =, -, +.
+     * Comparaison de la combinaison secrete avec la proposition
+     * @param valeurATrouver tableau contenant la combinaison secrete
+     * @param valeurProposee tableau contenant la proposition du joueur
+     * @param nbCases nombre de cases d'une ligne de jeu (taille de la combinaison)
+     * @param nbCouleurs nombre de valeurs (couleurs) possibles
+     * @return valScore les dizaines représentent le nombre de bien placés, les unités les présents
      */
-    public int compareSaisie(int[] valeurATrouver, int[] valeurSaisi, int nbOccurences) {
-        int[] traiteATrouver = new int[nbOccurences];
-        int[] traiteSaisi = new int[nbOccurences];
 
-        present = 0;
-        bienPlace = 0;
+    public int score(int[] valeurATrouver, int[] valeurProposee, int nbCases, int nbCouleurs) {
 
-        logger.debug("Solution = " + Arrays.toString(valeurATrouver).replace(", ", ""));
-
-        for (int i=0; i < nbOccurences; i++) {
-            if (valeurSaisi[i] == valeurATrouver[i]) {
-                bienPlace = bienPlace + 1;
-                traiteSaisi[i] = -1;
-                traiteATrouver[i] = -1;
+        // recherche des biens placés (rouge)
+        int r = 0;
+        for (int i = 0; i < nbCases; i++) {
+            if (valeurATrouver[i] == valeurProposee[i]) {
+                r++;
             }
         }
-        if (bienPlace < nbOccurences) {
-            for (int i = 0; i < nbOccurences; i++) {
-                for (int j = 0; j < nbOccurences; j++) {
-                    if (traiteSaisi[i] != -1 && traiteATrouver[j] != -1) {
-                        if (valeurSaisi[i] == valeurATrouver[j]) {
-                            present = present + 1;
-                            traiteSaisi[i] = -1;
-                            traiteATrouver[j] = -1;
-                        }
-                    }
+        // recherche de l'ensemble des présents (bien placés compris)
+        int b = -r;
+        for (int i = 0; i < nbCouleurs; i++) {
+            int n = 0;
+            int m = 0;
+            for (int j = 0; j < nbCases; j++) {
+                if (valeurATrouver[j] == i) {
+                    n++;
+                }
+                if (valeurProposee[j] == i) {
+                    m++;
                 }
             }
+            if (n < m) {
+                b = b + n;
+            } else {
+                b = b + m;
+            }
         }
+        int valScore = (10 * r) + b; // les présent sont sur la dizaine (r = rouge), les biens placés sur l'unitée (b = blanc)
 
-        return bienPlace;
-    }
+        logger.debug("valeurATrouver : " + Arrays.toString(valeurATrouver).replace(", ", ""));
+        logger.debug("valeurProposee : " + Arrays.toString(valeurProposee).replace(", ", ""));
+        logger.debug("valScore        [" + valScore + "]");
 
+     return valScore;
+}
 
     /**
-     * Proposition de l'ordianteur.
-     *
+     * Proposition de l'ordinateur.
      * @param propositionPrecedente valeur de la proposition pr&eacute;c&eacute;dente.
      * @param resultat valeur de la comparaison pr&eacute;c&eacute;dente.
      * @return nombrePropose = Tableau de NB_DIGIT &eacute;l&eacute;ments num&eacute;riques, valeurs possibles 0 &agrave; 9.
@@ -84,7 +86,6 @@ public class JeuMastermind {
 
     /**
      * Lancement du jeu Mastermind.
-     *
      * @param valModeJeu choix du mode de jeu.
      * @return rapport compte rendu du r&eacute;sultat de la partie.
      */
@@ -92,6 +93,7 @@ public class JeuMastermind {
         String rapport = "ToDo";
         int nbrCoups = 0;
         int resultat = 0;
+        int r, b = 0;
         int resultat2 = 0; // Pour la comparaison de la proposition de l'ordinateur
         int[] nombreATrouver = new int[Main.NB_DIGIT_MASTERMIND]; // Resultat du tirage aléatoire ou de la proposition humaine
         int[] propositionPrecedente =  new int[Main.NB_DIGIT_MASTERMIND]; // Permet de conserver la trace de la proposition précédente de l'ordinateur
@@ -106,12 +108,15 @@ public class JeuMastermind {
 
                 do {
                     int[] nombreSaisi = outils.saisieNombre(Main.NB_DIGIT_MASTERMIND, Main.NB_VALEURS_MASTERMIND, PROPOSITION, Main.DEBUG);
-                    resultat = compareSaisie(nombreATrouver, nombreSaisi, Main.NB_DIGIT_MASTERMIND);
-                    result.afficheResultat(HUMAIN, present, bienPlace, nombreSaisi, "");
+//                    resultat = compareSaisie(nombreATrouver, nombreSaisi, Main.NB_DIGIT_MASTERMIND);
+                    resultat = score(nombreATrouver, nombreSaisi, Main.NB_DIGIT_MASTERMIND, Main.NB_VALEURS_MASTERMIND);
+                    r = resultat/10;
+                    b = resultat%10;
+                    result.afficheResultat(HUMAIN, r, b , nombreSaisi, "");
                     nbrCoups++;
                 }
-                while ((resultat != Main.NB_DIGIT_MASTERMIND) && (nbrCoups < Main.ESSAIS_MAX_MASTERMIND));
-                if (resultat == Main.NB_DIGIT_MASTERMIND){
+                while ((r != Main.NB_DIGIT_MASTERMIND) && (nbrCoups < Main.ESSAIS_MAX_MASTERMIND));
+                if (r == Main.NB_DIGIT_MASTERMIND){
                     rapport = "Gagné en " + nbrCoups + " coups. Solution ";
                 } else {
                     rapport = "Perdu, nombre de tentatives (" + nbrCoups + ") atteint, la solution est : ";

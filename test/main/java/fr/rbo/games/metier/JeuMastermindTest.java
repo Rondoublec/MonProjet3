@@ -26,24 +26,24 @@ class JeuMastermindTest {
     @Test
     public void Given_JeuMastermind_WhenCompareSaisieDifferente_Then_ReturnZero() {
 
-        int nbOccurences = 4;
-        int resultat = mastermind.compareSaisie(new int[]{1,2,3,4},new int[]{5,6,7,8}, nbOccurences);
+        int nbCases = 4;
+        int resultat = mastermind.score(new int[]{1,2,3,4},new int[]{5,6,7,8}, nbCases,9);
         assertEquals(0, resultat);
     }
     @Test
     public void Given_JeuMastermind_WhenCompareSaisieEgale_Then_ReturnToutEgal() {
 
-        int nbOccurences = 4;
-        int resultat = mastermind.compareSaisie(new int[]{0,0,0,0},new int[]{0,0,0,0}, nbOccurences);
-        assertEquals(nbOccurences, resultat);
+        int nbCases = 4;
+        int resultat = mastermind.score(new int[]{0,0,0,0},new int[]{0,0,0,0}, nbCases,6);
+        assertEquals(nbCases*10, resultat);
     }
 
     @Test
     public void Given_JeuMastermind_WhenCompareSaisieEgaleLonguerCinq_Then_ReturnToutEgalLonguerCinq() {
 
-        int nbOccurences = 5;
-        int resultat = mastermind.compareSaisie(new int[]{1,0,0,0,0},new int[]{1,0,0,0,0}, nbOccurences);
-        assertEquals(nbOccurences, resultat);
+        int nbCases = 5;
+        int resultat = mastermind.score(new int[]{1,0,0,0,0},new int[]{1,0,0,0,0}, nbCases,6);
+        assertEquals(nbCases*10, resultat);
     }
 
 }
