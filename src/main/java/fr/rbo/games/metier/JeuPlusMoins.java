@@ -1,6 +1,7 @@
 package fr.rbo.games.metier;
 
 import fr.rbo.games.Main;
+import fr.rbo.games.ihm.Result;
 import fr.rbo.games.util.Outils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -48,22 +49,6 @@ public class JeuPlusMoins {
     }
 
     /**
-     * Affichage du résultat de la comparaison entre la proposition et la combinaison à trouver.
-     * @param mode pour gérer l'affichage du resultat de comparaison HUMAIN = proposition du joueur, ORDINATEUR = proposition de l'ordinateur.
-     * @param valeur pour gérer l'affichage de la valeur saisie (HUMAIN) ou proposée (ORDINATEUR).
-     * @param resultat pour gérer l'affichage du resultat de comparaison.
-     */
-    private void afficheResultat(boolean mode, int[] valeur, String resultat) {
-        if (mode == HUMAIN) {
-            System.out.println("Votre proposition ...........: " + Arrays.toString(valeur).replace(", ", "") + " -> Réponse " + resultat);
-        }
-        else {
-            System.out.println("Proposition de l'ordinateur .: " + Arrays.toString(valeur).replace(", ", "") + " -> Réponse " + resultat);
-        }
-
-    }
-
-    /**
      * Proposition de l'ordianteur.
      *
      * @param propositionPrecedente valeur de la proposition pr&eacute;c&eacute;dente.
@@ -108,6 +93,7 @@ public class JeuPlusMoins {
         int[] nombrePropose =  new int[Main.NB_DIGIT_PLUS_MOINS]; // Permt
 
         Outils outils = new Outils();
+        Result result = new Result();
 
         Main.GAGNE = outils.fabriqueChaine("=", Main.NB_DIGIT_PLUS_MOINS);
         logger.debug("Main.NB_DIGIT : " + Main.NB_DIGIT_PLUS_MOINS + " Main.GAGNE : " + Main.GAGNE);
@@ -119,7 +105,7 @@ public class JeuPlusMoins {
                 do {
                     nombreSaisi = outils.saisieNombre(Main.NB_DIGIT_PLUS_MOINS, Main.NB_VALEURS_PLUS_MOINS, PROPOSITION, Main.DEBUG);
                     resultat = compareSaisie(nombreATrouver, nombreSaisi, Main.NB_DIGIT_PLUS_MOINS);
-                    afficheResultat(HUMAIN, nombreSaisi, resultat);
+                    result.afficheResultat(HUMAIN, 0,0, nombreSaisi, resultat);
                     nbrCoups++;
                 }
                 while (!resultat.equals(Main.GAGNE) && nbrCoups < Main.ESSAIS_MAX_PLUS_MOINS);
@@ -137,7 +123,7 @@ public class JeuPlusMoins {
                 do {
                     nombrePropose = propositionOrdinateur (propositionPrecedente, resultat2);
                     resultat2 = compareSaisie(nombreATrouverParOrdinateur, nombrePropose,Main.NB_DIGIT_PLUS_MOINS);
-                    afficheResultat(ORDINATEUR, nombrePropose, resultat2);
+                    result.afficheResultat(ORDINATEUR, 0,0, nombrePropose, resultat2);
                     propositionPrecedente = nombrePropose;
                     nbrCoups++;
                 }
@@ -158,10 +144,10 @@ public class JeuPlusMoins {
                 do {
                     nombreSaisi = outils.saisieNombre(Main.NB_DIGIT_PLUS_MOINS, Main.NB_VALEURS_PLUS_MOINS, PROPOSITION, Main.DEBUG);
                     resultat = compareSaisie(nombreATrouver, nombreSaisi,Main.NB_DIGIT_PLUS_MOINS);
-                    afficheResultat(HUMAIN, nombreSaisi, resultat);
+                    result.afficheResultat(HUMAIN, 0,0, nombreSaisi, resultat);
                     nombrePropose = propositionOrdinateur (propositionPrecedente, resultat2);
                     resultat2 = compareSaisie(nombreATrouverParOrdinateur, nombrePropose, Main.NB_DIGIT_PLUS_MOINS);
-                    afficheResultat(ORDINATEUR, nombrePropose, resultat2);
+                    result.afficheResultat(ORDINATEUR, 0,0, nombrePropose, resultat2);
 
                     propositionPrecedente = nombrePropose;
                     nbrCoups++;

@@ -2,6 +2,7 @@ package fr.rbo.games.metier;
 
 import fr.rbo.games.Main;
 import fr.rbo.games.util.Outils;
+import fr.rbo.games.ihm.Result;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,7 +22,6 @@ public class JeuMastermind {
     private static final boolean ORDINATEUR = false;
     private int present = 0;
     private int bienPlace = 0;
-    private String votreSaisie = "";
 
     private static final Logger logger = LogManager.getLogger();
 
@@ -66,37 +66,6 @@ public class JeuMastermind {
         return bienPlace;
     }
 
-    /**
-     * Affichage du résultat de la comparaison entre la proposition et la combinaison à trouver.
-     * @param mode pour gérer l'affichage du resultat de comparaison HUMAIN = proposition du joueur, ORDINATEUR = proposition de l'ordinateur.
-     */
-    private void afficheResultat(boolean mode, int[] valeur){
-        String resultat = "aucune correspondance";
-
-        if (present > 0) {
-            resultat = present + " present";
-        }
-        if (present > 1) {
-            resultat = resultat + "s";
-        }
-        if (present > 0 && bienPlace > 0) {
-            resultat = resultat + ", " + bienPlace + " bien placé";
-        } else if (bienPlace > 0) {
-            resultat = bienPlace + " bien placé";
-        }
-        if (bienPlace > 1) {
-            resultat = resultat + "s";
-        }
-
-        if (mode == HUMAIN) {
-            System.out.println("Votre proposition ...........: " + Arrays.toString(valeur).replace(", ", "") + " -> Réponse " + resultat);
-        }
-        else {
-            System.out.println("Proposition de l'ordinateur .: " + Arrays.toString(valeur).replace(", ", "") + " -> Réponse " + resultat);
-        }
-
-    }
-
 
     /**
      * Proposition de l'ordianteur.
@@ -129,6 +98,7 @@ public class JeuMastermind {
         String solution;
 
         Outils outils = new Outils();
+        Result result = new Result();
 
         switch (valModeJeu) {
             case "1": // Mode Challenger
@@ -137,7 +107,7 @@ public class JeuMastermind {
                 do {
                     int[] nombreSaisi = outils.saisieNombre(Main.NB_DIGIT_MASTERMIND, Main.NB_VALEURS_MASTERMIND, PROPOSITION, Main.DEBUG);
                     resultat = compareSaisie(nombreATrouver, nombreSaisi, Main.NB_DIGIT_MASTERMIND);
-                    afficheResultat(HUMAIN, nombreSaisi);
+                    result.afficheResultat(HUMAIN, present, bienPlace, nombreSaisi, "");
                     nbrCoups++;
                 }
                 while ((resultat != Main.NB_DIGIT_MASTERMIND) && (nbrCoups < Main.ESSAIS_MAX_MASTERMIND));
