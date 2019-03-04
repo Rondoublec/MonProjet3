@@ -36,7 +36,8 @@ Il est aussi possible d'activer le mode développeur en lançant : <b>java -jar 
 ## Divers
 Contenu des dossiers
 * target\ jar
-* doc\ Documentation
+* doc\ Documentation 
+  + JavaDoc https://rondoublec.github.io/MonProjet3/JavaDoc/
 * src\ Sources du projet (développé en utilisant IntelliJ)
 * test\ Tests unitaires (JUnit)
 
