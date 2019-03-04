@@ -17,7 +17,7 @@ Le répertoire bin contient :
 Le jar <b>games-jar-with-dependencies.jar</b> dans lequel sont intégrés toutes les librairies nécessaires, pour le lancer :
 * <b>java -jar games-jar-with-dependencies.jar</b>
 
-Le <b>log4j2.xml</b> qui permet de parétrer les log, la version embarquée dans le jar ne prend que des logs fichier, si vous voulez tracer il faut lancer le jar en précisant de prendre ce fichier en paramètres avec la commande :
+Le <b>log4j2.xml</b> qui permet de paramétrer les log (la version embarquée dans le jar ne prend que des logs fichier). Si vous voulez tracer il faut lancer le jar en précisant de prendre ce fichier en paramètres avec la commande :
 
 * <b>java -Dlog4j.configurationFile=file:///c:/games/log4j2.xml -jar games-jar-with-dependencies.jar</b>
 
