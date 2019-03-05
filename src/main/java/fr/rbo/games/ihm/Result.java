@@ -3,7 +3,7 @@ package fr.rbo.games.ihm;
 import java.util.Arrays;
 
 /**
- * Affiche le r&eacute;sultat de la partie.
+ * Affiche les r&eacute;sultats des jeux et de la partie.
  * @author R&eacute;my Bourdoncle
  * @version 0.1
  */
@@ -23,9 +23,12 @@ public class Result {
      * @param valeur proposition &eacute;valu&eacute;e
      * @param resultat pour gérer l'affichage du resultat de comparaison.
      */
-    public void afficheResultat(boolean mode, int present, int bienPlace, int[] valeur, String resultat){
+    public void afficheResultat(boolean mode, int bienPlace, int present, int[] valeur, String resultat){
 
         if (resultat.equals("")) { // Si la chaine est vide, il faut la fabriquer, sinon on l'affiche directement.
+            if (present == 0 && bienPlace == 0){
+                resultat = "pas de correspondance";
+            }
             if (present > 0) {
                 resultat = present + " present";
             }

@@ -89,8 +89,8 @@ public class JeuPlusMoins {
         int[] nombreATrouver = new int[Main.NB_DIGIT_PLUS_MOINS]; // Valeur du tirage aléatoire
         int[] nombreATrouverParOrdinateur = new int[Main.NB_DIGIT_PLUS_MOINS]; // Valeur de la proposition humaine
         int[] propositionPrecedente = new int[Main.NB_DIGIT_PLUS_MOINS]; // Permet de conserver la trace de la proposition précédente de l'ordinateur
-        int[] nombreSaisi =  new int[Main.NB_DIGIT_PLUS_MOINS]; // Permet
-        int[] nombrePropose =  new int[Main.NB_DIGIT_PLUS_MOINS]; // Permt
+        int[] nombreSaisi =  new int[Main.NB_DIGIT_PLUS_MOINS]; // Saisie de la proposition de l'utilisateur
+        int[] nombrePropose =  new int[Main.NB_DIGIT_PLUS_MOINS]; // Proposition de l'ordinateur
 
         Outils outils = new Outils();
         Result result = new Result();

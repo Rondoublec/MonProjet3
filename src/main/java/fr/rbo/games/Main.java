@@ -77,12 +77,12 @@ public class Main {
                 case "1":
                     JeuPlusMoins plusmoins = new JeuPlusMoins();
                     String resultatPlusMoins = plusmoins.lancePlusMoins(menu.getChoixMode());
-                    System.out.println("\nresultatPlusMoins = " + resultatPlusMoins);
+                    System.out.println("\n \\o/ resultatPlusMoins = " + resultatPlusMoins + "\n");
                     break;
                 case "2":
                     JeuMastermind mastermind = new JeuMastermind();
                     String resultatMastermind = mastermind.lanceMastermind(menu.getChoixMode());
-                    System.out.println("\nresultatMastermind = " + resultatMastermind);
+                    System.out.println("\n \\o/ resultatMastermind = " + resultatMastermind + "\n");
                     break;
                 case "9":
                     System.out.println("Fin demandée par l'utilisateur.");
