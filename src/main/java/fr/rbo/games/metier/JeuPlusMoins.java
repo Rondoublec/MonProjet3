@@ -79,13 +79,14 @@ public class JeuPlusMoins {
      * Lancement du jeu Plus ou Moins.
      *
      * @param valModeJeu choix du mode de jeu.
-     * @return rapport = compte rendu du r&eacute;sultat de la partie.
      */
-    public String lancePlusMoins(String valModeJeu) {
-        String rapport = "ToDo";
+    public void lancePlusMoins(String valModeJeu) {
+        String solution = "";
         int nbrCoups = 0;
         String resultat = "";
         String resultat2 = "";
+        boolean vainqueur = false;
+        boolean vainqueur2 = false;
         int[] nombreATrouver = new int[Main.NB_DIGIT_PLUS_MOINS]; // Valeur du tirage aléatoire
         int[] nombreATrouverParOrdinateur = new int[Main.NB_DIGIT_PLUS_MOINS]; // Valeur de la proposition humaine
         int[] propositionPrecedente = new int[Main.NB_DIGIT_PLUS_MOINS]; // Permet de conserver la trace de la proposition précédente de l'ordinateur
@@ -94,6 +95,8 @@ public class JeuPlusMoins {
 
         Outils outils = new Outils();
         Result result = new Result();
+
+        logger.info("lancePlusMoins en mode " + valModeJeu);
 
         Main.GAGNE = outils.fabriqueChaine("=", Main.NB_DIGIT_PLUS_MOINS);
         logger.debug("Main.NB_DIGIT : " + Main.NB_DIGIT_PLUS_MOINS + " Main.GAGNE : " + Main.GAGNE);
@@ -105,16 +108,18 @@ public class JeuPlusMoins {
                 do {
                     nombreSaisi = outils.saisieNombre(Main.NB_DIGIT_PLUS_MOINS, Main.NB_VALEURS_PLUS_MOINS, PROPOSITION, Main.DEBUG);
                     resultat = compareSaisie(nombreATrouver, nombreSaisi, Main.NB_DIGIT_PLUS_MOINS);
-                    result.afficheResultat(HUMAIN, 0,0, nombreSaisi, resultat);
+                    result.afficheReponse(HUMAIN, 0,0, nombreSaisi, resultat);
                     nbrCoups++;
                 }
                 while (!resultat.equals(Main.GAGNE) && nbrCoups < Main.ESSAIS_MAX_PLUS_MOINS);
+                solution = Arrays.toString(nombreATrouver).replace(", ", "");
                 if (resultat.equals(Main.GAGNE)){
-                    rapport = "Gagné en " + nbrCoups + " coups. Solution ";
+                    vainqueur = HUMAIN;
+                    vainqueur2 = HUMAIN;
                 } else {
-                    rapport = "Perdu, nombre de tentatives (" + nbrCoups + ") atteint, la solution est : ";
+                    vainqueur = ORDINATEUR;
+                    vainqueur2 = ORDINATEUR;
                 }
-                rapport = rapport + Arrays.toString(nombreATrouver).replace(", ", "") + ".";
                 break;
             case "2": // Mode défenseur
                 nombreATrouverParOrdinateur = outils.saisieNombre(Main.NB_DIGIT_PLUS_MOINS, Main.NB_VALEURS_PLUS_MOINS, SECRET, Main.DEBUG);
@@ -123,18 +128,19 @@ public class JeuPlusMoins {
                 do {
                     nombrePropose = propositionOrdinateur (propositionPrecedente, resultat2);
                     resultat2 = compareSaisie(nombreATrouverParOrdinateur, nombrePropose,Main.NB_DIGIT_PLUS_MOINS);
-                    result.afficheResultat(ORDINATEUR, 0,0, nombrePropose, resultat2);
+                    result.afficheReponse(ORDINATEUR, 0,0, nombrePropose, resultat2);
                     propositionPrecedente = nombrePropose;
                     nbrCoups++;
                 }
                 while (!resultat2.equals(Main.GAGNE) && nbrCoups < Main.ESSAIS_MAX_PLUS_MOINS);
-                rapport = "Votre combinaison secrete : " + Arrays.toString(nombreATrouverParOrdinateur).replace(", ", "");
+                solution = Arrays.toString(nombreATrouverParOrdinateur).replace(", ", "");
                 if (resultat2.equals(Main.GAGNE)){
-                    rapport = "L'ordinateur gagne, il a trouvé en " + nbrCoups;
+                    vainqueur = ORDINATEUR;
+                    vainqueur2 = ORDINATEUR;
                 } else {
-                    rapport = "Vous gagnez, l'ordinateur n'a pas trouvé en " + nbrCoups;
+                    vainqueur = HUMAIN;
+                    vainqueur2 = HUMAIN;
                 }
-                rapport = rapport + " coups votre combinaison secrete : " + Arrays.toString(nombreATrouverParOrdinateur).replace(", ", "");
                 break;
             case "3": // Mode Duel
                 nombreATrouver = outils.tirageDuNombre(Main.NB_DIGIT_PLUS_MOINS, Main.NB_VALEURS_PLUS_MOINS, Main.DEBUG);
@@ -144,29 +150,32 @@ public class JeuPlusMoins {
                 do {
                     nombreSaisi = outils.saisieNombre(Main.NB_DIGIT_PLUS_MOINS, Main.NB_VALEURS_PLUS_MOINS, PROPOSITION, Main.DEBUG);
                     resultat = compareSaisie(nombreATrouver, nombreSaisi,Main.NB_DIGIT_PLUS_MOINS);
-                    result.afficheResultat(HUMAIN, 0,0, nombreSaisi, resultat);
+                    result.afficheReponse(HUMAIN, 0,0, nombreSaisi, resultat);
                     nombrePropose = propositionOrdinateur (propositionPrecedente, resultat2);
                     resultat2 = compareSaisie(nombreATrouverParOrdinateur, nombrePropose, Main.NB_DIGIT_PLUS_MOINS);
-                    result.afficheResultat(ORDINATEUR, 0,0, nombrePropose, resultat2);
+                    result.afficheReponse(ORDINATEUR, 0,0, nombrePropose, resultat2);
 
                     propositionPrecedente = nombrePropose;
                     nbrCoups++;
                 }
                 while (!resultat.equals(Main.GAGNE) && !resultat2.equals(Main.GAGNE) );
-
+                solution = Arrays.toString(nombreATrouver).replace(", ", "");
                 if ((resultat.equals(Main.GAGNE)) && (resultat2.equals(Main.GAGNE))) {
-                    rapport = "Egalité en ";
+                    vainqueur = HUMAIN;
+                    vainqueur2 = ORDINATEUR;
                 } else if (resultat.equals(Main.GAGNE)){
-                    rapport = "Humain gagne en ";
+                    vainqueur = HUMAIN;
+                    vainqueur2 = HUMAIN;
                 } else {
-                    rapport = "Ordinateur gagne en ";
+                    vainqueur = ORDINATEUR;
+                    vainqueur2 = ORDINATEUR;
                 }
-                rapport = rapport + nbrCoups + " coups. Solution " + Arrays.toString(nombreATrouver).replace(", ", "") +".";
                 break;
             default:
-                System.out.println("ERREUR valeur incorrecte !");
+                System.err.println("Mode de jeu [" + valModeJeu + "] inconnu ... ERREUR valeur incorrecte !");
+                logger.error("Mode de jeu [" + valModeJeu + "] inconnu ... ERREUR valeur incorrecte !");
                 break;
         }
-        return rapport;
+        result.afficheRapport("1",valModeJeu,vainqueur,vainqueur2,nbrCoups,solution);
     }
 }

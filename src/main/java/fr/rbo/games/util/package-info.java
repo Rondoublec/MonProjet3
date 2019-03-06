@@ -1,4 +1,4 @@
 /**
- * Composants de fonctions utilitaires réutilisables
+ * Composants de fonctions utilitaires r&eacute;utilisables
  */
 package fr.rbo.games.util;

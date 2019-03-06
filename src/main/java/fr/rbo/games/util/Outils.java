@@ -31,6 +31,9 @@ public class Outils {
         if (debug) {
             System.out.print(" Mode DEV - tirage = " + Arrays.toString(tirage).replace(", ", ""));
         }
+
+        logger.info("lanceMastermind en mode " + Arrays.toString(tirage).replace(", ", ""));
+
         return tirage;
     }
     /**
@@ -51,7 +54,7 @@ public class Outils {
             if (proposition){
                 System.out.println("\nEntrez votre proposition de " + nbElements + " chiffres (de 0 à " + nbMax + ") ?");
             } else {
-                System.out.println("\nEntrez la combinaison à trouver de " + nbElements + " chiffres (de 0 à " + nbMax + ") ?");
+                System.out.println("\nEntrez la combinaison de " + nbElements + " chiffres (de 0 à " + nbMax + ") à trouver par l'ordnateur ?");
             }
             String saisie = sc.nextLine();
             if (saisie.length() == nbElements) {
