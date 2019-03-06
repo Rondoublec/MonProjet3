@@ -22,13 +22,13 @@ Le <b>log4j2.xml</b> qui permet de paramétrer les log (la version embarquée da
 * <b>java -Dlog4j.configurationFile=file:///c:/games/log4j2.xml -jar games-jar-with-dependencies.jar</b>
 
 Le <b>config.properties</b> qui contient les paramètres des jeux, ci-dessous les explications :
-* nbCasesPlusMoins=4
-* nbEssaisPlusMoins=5
-* nbValeursPlusMoins=10 (valeurs pour chaque chiffre de 0 à 9)
-* nbCasesMastermind=4
-* nbEssaisMastermind=8
-* nbValeursMastermind=6 (soit 6 couleurs matérialisées par des valeurs pour chaque chiffre de 0 à 5, minimum 6 / maximum 10)
-* modeDev=false (mode développeur pour afficher la solution à trouver <b>false</b> ou <b>true</b>)
+* nbCasesPlusMoins=4 <i>(Min 2 / Max 9)</i>
+* nbEssaisPlusMoins=5 <i>(Min 2 / Max 20)</i>
+* nbValeursPlusMoins=10 <i>(Min 5 / Max 10) dans l'exemple, valeurs pour chaque chiffre de 0 à 9</i>
+* nbCasesMastermind=4 <i>(Min 2 / Max 5)</i>
+* nbEssaisMastermind=8 <i>(Min 2 / Max 20)</i>
+* nbValeursMastermind=6 <i>(Min 4 / Max 10) dans l'exemple 6 couleurs matérialisées par des valeurs pour chaque chiffre de 0 à 5</i>
+* modeDev=false <i>(mode développeur pour afficher la solution à trouver <b>false</b> ou <b>true</b>)</i>
 Si ce ficher n'existe pas, il est créé avec les valeurs par defaut au 1er lancement de l'application.
 
 Il est aussi possible d'activer le mode développeur en lançant : <b>java -jar games-jar-with-dependencies.jar dev </b> et de le désactiver avec : <b>java -jar games-jar-with-dependencies.jar nodev</b>.

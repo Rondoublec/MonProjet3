@@ -13,22 +13,17 @@ import java.util.Arrays;
 
 public class Result {
 
-    private static final boolean PROPOSITION = true;
-    private static final boolean SECRET = false;
-    private static final boolean HUMAIN = true;
-    private static final boolean ORDINATEUR = false;
-
     private static final Logger logger = LogManager.getLogger();
 
     /**
      * Affichage du r&eacute;sultat de la comparaison entre la proposition et la combinaison &agrave; trouver.
-     * @param mode pour g&eacute;rer l'affichage du resultat de comparaison HUMAIN = proposition du joueur, ORDINATEUR = proposition de l'ordinateur.
+     * @param joueurHumain pour g&eacute;rer l'affichage du resultat de comparaison proposition du joueur ou proposition de l'ordinateur.
      * @param present nombre de valeurs pr&eacute;sent (mais mal plac&eacute;es)
      * @param bienPlace nombre de valeurs bien plac&eacute;es
      * @param valeur proposition &eacute;valu&eacute;e
      * @param resultat pour g&eacute;rer l'affichage du resultat de comparaison.
      */
-    public void afficheReponse(boolean mode, int bienPlace, int present, int[] valeur, String resultat){
+    public void afficheReponse(boolean joueurHumain, int bienPlace, int present, int[] valeur, String resultat){
 
         if (resultat.equals("")) { // Si la chaine est vide, il faut la fabriquer, sinon on l'affiche directement.
             if (present == 0 && bienPlace == 0){
@@ -50,7 +45,7 @@ public class Result {
             }
         }
 
-        if (mode == HUMAIN) {
+        if (joueurHumain) {
             System.out.println("Votre proposition ...........: " + Arrays.toString(valeur).replace(", ", "") + " -> Réponse " + resultat);
         }
         else {
@@ -62,12 +57,12 @@ public class Result {
      * Affichage du rapport de fin de partie
      * @param jeu valeur du jeu choisi
      * @param mode valeur du mode de jeu choisi
-     * @param vainqueur HUMAIN (true) ORDINATEUR (false)
-     * @param vainqueur2 HUMAIN (true) ORDINATEUR (false)
+     * @param vainqueurHumain Humain vainqueur de la partie
+     * @param vainqueurOrdinateur  Ordinateur vainqueur de la partie
      * @param nbrCoups nombre de tentatives jou&eacute;es
      * @param solution combinaison secr&egrave;te &agrave; trouver
      */
-    public void afficheRapport(String jeu, String mode, boolean vainqueur, boolean vainqueur2, int nbrCoups, String solution){
+    public void afficheRapport(String jeu, String mode, boolean vainqueurHumain, boolean vainqueurOrdinateur, int nbrCoups, String solution){
         String rapport = "FIN";
 
         switch (jeu){
@@ -85,7 +80,7 @@ public class Result {
         }
         switch (mode) {
             case "1": // Challenger
-                if (vainqueur == HUMAIN && vainqueur2 == HUMAIN) {
+                if (vainqueurHumain) {
                     rapport = "Gagné en " + nbrCoups + " coups. La solution est : ";
                 } else {
                     rapport = "Perdu, nombre de tentatives (" + nbrCoups + ") atteint. La solution est : ";
@@ -93,7 +88,7 @@ public class Result {
                 rapport = rapport + solution + ".";
                 break;
             case "2": // Defenseur
-                if (vainqueur == ORDINATEUR && vainqueur2 == ORDINATEUR){
+                if (vainqueurHumain) {
                     rapport = "L'ordinateur gagne, il a trouvé en " + nbrCoups;
                 } else {
                     rapport = "Vous gagnez, l'ordinateur n'a pas trouvé en " + nbrCoups;
@@ -101,9 +96,9 @@ public class Result {
                 rapport = rapport + " coups votre combinaison secrete : " + solution + ".";
                 break;
             case "3": // Duel
-                if ((vainqueur == HUMAIN) && (vainqueur2 == ORDINATEUR)) {
+                if ((vainqueurHumain) && (vainqueurOrdinateur)) {
                     rapport = "Egalité en " + nbrCoups + " coups." ;
-                } else if (vainqueur == HUMAIN){
+                } else if (vainqueurHumain){
                     rapport = "Humain gagne en " + nbrCoups + " coups.";;
                 } else {
                     rapport = "Ordinateur gagne en " + nbrCoups + " coups. La solution à trouver était : " + solution +".";;
@@ -116,5 +111,6 @@ public class Result {
                 break;
         }
         System.out.println(rapport + "\n");
+        logger.info(rapport);
     }
 }

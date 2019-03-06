@@ -26,9 +26,9 @@ public class JeuMastermind {
 
     private static final Logger logger = LogManager.getLogger();
 
-    List<String> listeCombinaisons = new ArrayList<String>();
-    List<String> listePropositions = new ArrayList<String>();
-    List<Integer> listeDesScores = new ArrayList<Integer>();
+    private List<String> listeCombinaisons = new ArrayList<>();
+    private List<String> listePropositions = new ArrayList<>();
+    private List<Integer> listeDesScores = new ArrayList<>();
 
     /**
      * Création de la liste des combinaisons possible, cette liste permettra par élimination de découvrir les combinaisons possibles
@@ -54,7 +54,7 @@ public class JeuMastermind {
      * @param nbCouleurs nombre de valeurs (couleurs) possibles
      * @return valScore les dizaines représentent le nombre de bien placés, les unités les présents
      */
-    public int score(int[] valeurATrouver, int[] valeurProposee, int nbCases, int nbCouleurs) {
+    int score(int[] valeurATrouver, int[] valeurProposee, int nbCases, int nbCouleurs) {
 
         // recherche des biens placés (rouge)
         int bienPlace = 0;
@@ -96,10 +96,10 @@ public class JeuMastermind {
      * @param nbCouleurs nombre de valeurs (couleurs) possibles
      * @return propositionAEvaluer = Tableau de NB_DIGIT &eacute;l&eacute;ments num&eacute;riques, combinaison à proposer par l'ordinateur.
      */
-    protected int[] rechercheProposition(int nbCases, int nbCouleurs){
+    private int[] rechercheProposition(int nbCases, int nbCouleurs){
         int[] propositionAEvaluer = new int[nbCases];
         int[] propositionEvalueeHisto =  new int[nbCases];
-        boolean scoreOK = false;
+        boolean scoreOK;
         int indiceListeDesPropositionsPossibles = 0;
         int indiceHistoriqueDesPropositionsTestees = 0;
         int scorePropositionATrouver = 0;
@@ -145,12 +145,10 @@ public class JeuMastermind {
     public void lanceMastermind(String valModeJeu) {
         String solution = "";
         int nbrCoups = 0;
-        int resultat = 0;
-        int resultat2 = 0; // Pour la comparaison de la proposition de l'ordinateur
-        boolean vainqueur = false;
-        boolean vainqueur2 = false;
-        int rouge, blanc = 0; // r = nombre de rouges (=biens placés), b = nombre de blancs (=présents)
-        int rouge2, blanc2 = 0; // r2 = nombre de rouges (=biens placés), b2 = nombre de blancs (=présents) pour l'ordinateur
+        int resultatHumain = 0;
+        int resultatOrdinateur = 0; // Pour la comparaison de la proposition de l'ordinateur
+        int rougeHumain, blancHumain = 0; // r = nombre de rouges (=biens placés), b = nombre de blancs (=présents)
+        int rougeOrdinateur, blancOrdinateur = 0; // r2 = nombre de rouges (=biens placés), b2 = nombre de blancs (=présents) pour l'ordinateur
         int[] nombreATrouver = new int[Main.NB_DIGIT_MASTERMIND]; // Resultat du tirage aléatoire ou de la proposition humaine
         int[] nombreATrouverParOrdinateur = new int[Main.NB_DIGIT_MASTERMIND]; // Valeur de la proposition humaine
         int[] nombreSaisi =  new int[Main.NB_DIGIT_MASTERMIND]; // Saisie de la proposition de l'utilisateur
@@ -166,21 +164,15 @@ public class JeuMastermind {
                 nombreATrouver = outils.tirageDuNombre(Main.NB_DIGIT_MASTERMIND, Main.NB_VALEURS_MASTERMIND, Main.DEBUG);
                 do {
                     nombreSaisi = outils.saisieNombre(Main.NB_DIGIT_MASTERMIND, Main.NB_VALEURS_MASTERMIND, PROPOSITION, Main.DEBUG);
-                    resultat = score(nombreATrouver, nombreSaisi, Main.NB_DIGIT_MASTERMIND, Main.NB_VALEURS_MASTERMIND);
-                    rouge = resultat/10;
-                    blanc = resultat%10;
-                    result.afficheReponse(HUMAIN, rouge, blanc , nombreSaisi, "");
+                    resultatHumain = score(nombreATrouver, nombreSaisi, Main.NB_DIGIT_MASTERMIND, Main.NB_VALEURS_MASTERMIND);
+                    rougeHumain = resultatHumain/10;
+                    blancHumain = resultatHumain%10;
+                    result.afficheReponse(HUMAIN, rougeHumain, blancHumain , nombreSaisi, "");
                     nbrCoups++;
                 }
-                while ((rouge != Main.NB_DIGIT_MASTERMIND) && (nbrCoups < Main.ESSAIS_MAX_MASTERMIND));
+                while ((rougeHumain != Main.NB_DIGIT_MASTERMIND) && (nbrCoups < Main.ESSAIS_MAX_MASTERMIND));
                 solution = Arrays.toString(nombreATrouver).replace(", ", "");
-                if (rouge == Main.NB_DIGIT_MASTERMIND){
-                    vainqueur = HUMAIN;
-                    vainqueur2 = HUMAIN;
-                } else {
-                    vainqueur = ORDINATEUR;
-                    vainqueur2 = ORDINATEUR;
-                }
+                result.afficheRapport("1",valModeJeu,(rougeHumain == Main.NB_DIGIT_MASTERMIND),(rougeHumain == Main.NB_DIGIT_MASTERMIND),nbrCoups,solution);
                 break;
 
             case "2": // Mode défenseur
@@ -198,23 +190,17 @@ public class JeuMastermind {
                         cList = cList + nombrePropose[i];
                     }
                     listePropositions.add(cList); // Sauvegarde de la proposition
-                    resultat2 = score(nombreATrouverParOrdinateur, nombrePropose, Main.NB_DIGIT_MASTERMIND, Main.NB_VALEURS_MASTERMIND);
-                    listeDesScores.add(resultat2);
+                    resultatOrdinateur = score(nombreATrouverParOrdinateur, nombrePropose, Main.NB_DIGIT_MASTERMIND, Main.NB_VALEURS_MASTERMIND);
+                    listeDesScores.add(resultatOrdinateur);
                     logger.debug("         Proposition N° " + nbrCoups + " : " + listePropositions.get(nbrCoups) + " score : " + listeDesScores.get(nbrCoups));
-                    rouge2 = resultat2/10;
-                    blanc2 = resultat2%10;
-                    result.afficheReponse(ORDINATEUR, rouge2, blanc2 , nombrePropose, "");
+                    rougeOrdinateur = resultatOrdinateur/10;
+                    blancOrdinateur = resultatOrdinateur%10;
+                    result.afficheReponse(ORDINATEUR, rougeOrdinateur, blancOrdinateur , nombrePropose, "");
                     nbrCoups++;
                 }
-                while ((rouge2 != Main.NB_DIGIT_MASTERMIND) && (nbrCoups < Main.ESSAIS_MAX_MASTERMIND));
+                while ((rougeOrdinateur != Main.NB_DIGIT_MASTERMIND) && (nbrCoups < Main.ESSAIS_MAX_MASTERMIND));
                 solution = Arrays.toString(nombreATrouverParOrdinateur).replace(", ", "");
-                if (rouge2 == Main.NB_DIGIT_MASTERMIND){
-                    vainqueur = ORDINATEUR;
-                    vainqueur2 = ORDINATEUR;
-                } else {
-                    vainqueur = HUMAIN;
-                    vainqueur2 = HUMAIN;
-                }
+                result.afficheRapport("1",valModeJeu,(rougeOrdinateur == Main.NB_DIGIT_MASTERMIND),(rougeOrdinateur == Main.NB_DIGIT_MASTERMIND),nbrCoups,solution);
                 break;
 
             case "3": // Mode Duel
@@ -224,13 +210,13 @@ public class JeuMastermind {
                 do {
                     // HUMAIN ==================== JOUE
                     nombreSaisi = outils.saisieNombre(Main.NB_DIGIT_MASTERMIND, Main.NB_VALEURS_MASTERMIND, PROPOSITION, Main.DEBUG);
-                    resultat = score(nombreATrouver, nombreSaisi, Main.NB_DIGIT_MASTERMIND, Main.NB_VALEURS_MASTERMIND);
-                    rouge = resultat/10;
-                    blanc = resultat%10;
-                    result.afficheReponse(HUMAIN, rouge, blanc , nombreSaisi, "");
+                    resultatHumain = score(nombreATrouver, nombreSaisi, Main.NB_DIGIT_MASTERMIND, Main.NB_VALEURS_MASTERMIND);
+                    rougeHumain = resultatHumain/10;
+                    blancHumain = resultatHumain%10;
+                    result.afficheReponse(HUMAIN, rougeHumain, blancHumain , nombreSaisi, "");
                     // ORDINATEUR ================ JOUE
                     if (nbrCoups == 0){ // au 1er passage on tire un nombre aléatoire pour commencer à chercher
-                        nombrePropose = outils.tirageDuNombre(Main.NB_DIGIT_MASTERMIND, Main.NB_VALEURS_MASTERMIND, Main.DEBUG);
+                        nombrePropose = outils.tirageDuNombre(Main.NB_DIGIT_MASTERMIND, Main.NB_VALEURS_MASTERMIND, ORDINATEUR);
                     } else {
                         nombrePropose = rechercheProposition(Main.NB_DIGIT_MASTERMIND, Main.NB_VALEURS_MASTERMIND);
                     }
@@ -239,28 +225,17 @@ public class JeuMastermind {
                         cList = cList + nombrePropose[i];
                     }
                     listePropositions.add(cList); // Sauvegarde de la proposition
-                    resultat2 = score(nombreATrouverParOrdinateur, nombrePropose, Main.NB_DIGIT_MASTERMIND, Main.NB_VALEURS_MASTERMIND);
-                    listeDesScores.add(resultat2);
+                    resultatOrdinateur = score(nombreATrouverParOrdinateur, nombrePropose, Main.NB_DIGIT_MASTERMIND, Main.NB_VALEURS_MASTERMIND);
+                    listeDesScores.add(resultatOrdinateur);
                     logger.debug("         Proposition N° " + nbrCoups + " : " + listePropositions.get(nbrCoups) + " score : " + listeDesScores.get(nbrCoups));
-                    rouge2 = resultat2/10;
-                    blanc2 = resultat2%10;
-                    result.afficheReponse(ORDINATEUR, rouge2, blanc2 , nombrePropose, "");
-
+                    rougeOrdinateur = resultatOrdinateur/10;
+                    blancOrdinateur = resultatOrdinateur%10;
+                    result.afficheReponse(ORDINATEUR, rougeOrdinateur, blancOrdinateur , nombrePropose, "");
                     nbrCoups++;
-
                 }
-                while ((rouge != Main.NB_DIGIT_MASTERMIND)&&(rouge2 != Main.NB_DIGIT_MASTERMIND));
+                while ((rougeHumain != Main.NB_DIGIT_MASTERMIND)&&(rougeOrdinateur != Main.NB_DIGIT_MASTERMIND));
                 solution = Arrays.toString(nombreATrouver).replace(", ", "");
-                if ((rouge == Main.NB_DIGIT_MASTERMIND) && (rouge2 == Main.NB_DIGIT_MASTERMIND)) {
-                    vainqueur = HUMAIN;
-                    vainqueur2 = ORDINATEUR;
-                } else if (rouge == Main.NB_DIGIT_MASTERMIND){
-                    vainqueur = HUMAIN;
-                    vainqueur2 = HUMAIN;
-                } else {
-                    vainqueur = ORDINATEUR;
-                    vainqueur2 = ORDINATEUR;
-                }
+                result.afficheRapport("1",valModeJeu,(rougeHumain == Main.NB_DIGIT_MASTERMIND),(rougeOrdinateur == Main.NB_DIGIT_MASTERMIND),nbrCoups,solution);
                 break;
 
             default:
@@ -268,6 +243,5 @@ public class JeuMastermind {
                 logger.error("Mode de jeu [" + valModeJeu + "] inconnu ... ERREUR valeur incorrecte !");
                 break;
         }
-        result.afficheRapport("1",valModeJeu,vainqueur,vainqueur2,nbrCoups,solution);
     }
 }
