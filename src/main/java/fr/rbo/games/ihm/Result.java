@@ -63,14 +63,14 @@ public class Result {
      * @param solution combinaison secr&egrave;te &agrave; trouver
      */
     public void afficheRapport(String jeu, String mode, boolean vainqueurHumain, boolean vainqueurOrdinateur, int nbrCoups, String solution){
-        String rapport = "FIN";
-
+        String rapport = "";
+/*
         switch (jeu){
             case "1": // Recherche Plus ou Moins
-                rapport = "\n \\o/ Résultat du jeu de recherche Plus ou moins : ";
+                System.out.println("         P L U S  ou  M O I N S          ");
                 break;
             case "2": // Mastermind
-                rapport = "\n \\o/ Résultat du jeu de Mastermind : ";
+                System.out.println("          M A S T E R M I N D            ");
                 break;
             default:
                 System.err.println("Jeu ["+ jeu + "] inconnu ... Fin anormale");
@@ -78,6 +78,10 @@ public class Result {
                 System.exit(9);
                 break;
         }
+*/
+        System.out.println("        * * * * * * * * * * * *          ");
+        System.out.println("     * * *  Partie terminée  * * *       ");
+        System.out.println("        * * * * * * * * * * * *          ");
         switch (mode) {
             case "1": // Challenger
                 if (vainqueurHumain) {
@@ -114,3 +118,5 @@ public class Result {
         logger.info(rapport);
     }
 }
+
+

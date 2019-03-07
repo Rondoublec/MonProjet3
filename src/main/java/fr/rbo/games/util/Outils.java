@@ -32,7 +32,7 @@ public class Outils {
             System.out.print(" Mode DEV - tirage = " + Arrays.toString(tirage).replace(", ", ""));
         }
 
-        logger.info("lanceMastermind en mode " + Arrays.toString(tirage).replace(", ", ""));
+        logger.info("tirageDuNombre " + Arrays.toString(tirage).replace(", ", ""));
 
         return tirage;
     }

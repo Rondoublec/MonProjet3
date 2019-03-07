@@ -41,10 +41,13 @@ public class Menu {
         boolean choixValide = false;
 
         do {
-            System.out.println("Choix du jeu");
+            System.out.println("=========================================");
+            System.out.println("            == G A M E S ==              ");
+            System.out.println("     A quel jeu voulez-vous jouer ?      ");
+            System.out.println("=========================================");
             System.out.println("1 - Plus ou Moins");
             System.out.println("2 - Mastermind");
-            System.out.println("Faites votre choix ou 9 pour terminer.");
+            System.out.println("Faites votre choix ou 9 pour terminer -> ");
             choixJeu = sc.nextLine();
             if ((!choixJeu.equals("1")) && (!choixJeu.equals("2")) && (!choixJeu.equals("9"))) {
                 System.out.println("Choix invalide - recommencez ! \n");
@@ -60,10 +63,12 @@ public class Menu {
     private void afficheJeuChoisi() {
         switch (choixJeu) {
             case "1":
-                System.out.println("Vous avez choisi le jeu Plus ou Moins\n");
+                System.out.println("=========================================");
+                System.out.println("         P L U S  ou  M O I N S          ");
                 break;
             case "2":
-                System.out.println("Vous avez choisi le jeu Mastermind\n");
+                System.out.println("=========================================");
+                System.out.println("          M A S T E R M I N D            ");
                 break;
             case "9":
                 System.out.println("Merci et à bientôt\n");
@@ -82,11 +87,12 @@ public class Menu {
         boolean choixValide = false;
 
         do {
-            System.out.println("Choix du mode de jeu");
-            System.out.println("1 - Challenger - A moi de jouer");
-            System.out.println("2 - Défenseur - A l'ordinateur de jouer");
-            System.out.println("3 - Duel - Qui trouvera le premier ?");
-            System.out.println("Faites votre choix ou 9 pour terminer.");
+            System.out.println("    Quel défis voulez vous relever ?     ");
+            System.out.println("=========================================");
+            System.out.println("1 - Challenger - Trouvez la combinaison et emportez le trophé.");
+            System.out.println("2 - Défenseur  - L'ordinateur trouvera-t-il votre code secret ?");
+            System.out.println("3 - Duel       - Affrontez la machine !");
+            System.out.println("Faites votre choix ou 9 pour terminer -> ");
             choixMode = sc.nextLine();
             if ((!choixMode.equals("1")) && (!choixMode.equals("2"))  && (!choixMode.equals("3")) && (!choixMode.equals("9"))) {
                 System.out.println("Choix invalide - recommencez ! \n");
@@ -103,13 +109,19 @@ public class Menu {
     private void afficheModeChoisi() {
         switch (choixMode) {
             case "1":
-                System.out.println("Vous avez choisi le mode Challenger.");
+                System.out.println("=========================================");
+                System.out.println(" CHALLENGER : Trouvez la combinaison     ");
+                System.out.println("=========================================");
                 break;
             case "2":
-                System.out.println("Vous avez choisi le mode Défenseur.");
+                System.out.println("=========================================");
+                System.out.println(" DEFENSEUR : Saisissez votre code secret ");
+                System.out.println("=========================================");
                 break;
             case "3":
-                System.out.println("Vous avez choisi le mode Duel.");
+                System.out.println("=========================================");
+                System.out.println(" DUEL : Affrontez la machine             ");
+                System.out.println("=========================================");
                 break;
             case "9":
                 System.out.println("Merci et à bientôt.");
