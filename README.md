@@ -1,4 +1,4 @@
-# MonProjet3
+# MonProjet3 : https://github.com/Rondoublec/MonProjet3
 Projet 3 - Réaliser une application de jeux en Java, Recherche plus ou moins et Mastermind, avec Log4j V2
 
 * jeu de recherche d'une combinaison secrète grâce à des indications + ou -
