@@ -17,12 +17,7 @@ import java.util.List;
  * @version 0.1
  */
 
-public class JeuMastermind {
-
-    private static final boolean PROPOSITION = true;
-    private static final boolean SECRET = false;
-    private static final boolean HUMAIN = true;
-    private static final boolean ORDINATEUR = false;
+public class JeuMastermind extends Jeu{
 
     private static final Logger logger = LogManager.getLogger();
 

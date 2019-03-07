@@ -14,12 +14,7 @@ import java.util.Arrays;
  * @author R&eacute;my Bourdoncle
  * @version 0.1
  */
-public class JeuPlusMoins {
-
-    private static final boolean PROPOSITION = true;
-    private static final boolean SECRET = false;
-    private static final boolean HUMAIN = true;
-    private static final boolean ORDINATEUR = false;
+public class JeuPlusMoins extends Jeu{
 
     private static final Logger logger = LogManager.getLogger();
 
