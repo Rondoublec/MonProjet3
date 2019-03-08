@@ -8,7 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class JeuPlusMoinsTest {
 
-    JeuPlusMoins plusMoins = new JeuPlusMoins();
+//    JeuPlusMoins plusMoins = new JeuPlusMoins();
+    JeuPlusMoins plusMoins = new JeuPlusMoins("Recherche plus ou moins","",
+            5,4,10);
 
     @Test
     public void Given_JeuPlusMoins_WhenCompareSaisieEgale_Then_ReturnLigneEgal() {

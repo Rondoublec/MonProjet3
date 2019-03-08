@@ -21,7 +21,9 @@ class JeuMastermindTest {
     }
 */
 
-    JeuMastermind mastermind = new JeuMastermind();
+//    JeuMastermind mastermind = new JeuMastermind();
+    JeuMastermind mastermind = new JeuMastermind("Mastermind","",
+            5,4,6);
 
     @Test
     public void Given_JeuMastermind_WhenCompareSaisieDifferente_Then_ReturnZero() {

@@ -13,15 +13,15 @@ import java.util.Scanner;
 public class Menu {
 
     private static Scanner sc = new Scanner(System.in);
-    private static String choixJeu = "";
-    private static String choixMode = "";
+    private TypeMenu choixJeu;
+    private TypeSousMenu choixMode;
     private static final Logger logger = LogManager.getLogger();
 
     /**
      * Choix de jeu
      * @return choixJeu (9 si fin demand&eacute;e).
      */
-    public static String getChoixJeu() {
+    public TypeMenu getChoixJeu() {
         return choixJeu;
     }
 
@@ -29,7 +29,7 @@ public class Menu {
      * Mode de jeu
      * @return choixMode (9 si fin demand&eacute;e).
      */
-    public static String getChoixMode() {
+    public TypeSousMenu getChoixMode() {
         return choixMode;
     }
 
@@ -37,7 +37,6 @@ public class Menu {
      * Affiche les jeux disponbles.
      */
     private void afficheMenuChoixJeu() {
-        choixJeu = "";
         boolean choixValide = false;
 
         do {
@@ -48,8 +47,8 @@ public class Menu {
             System.out.println("1 - Plus ou Moins");
             System.out.println("2 - Mastermind");
             System.out.println("Faites votre choix ou 9 pour terminer -> ");
-            choixJeu = sc.nextLine();
-            if ((!choixJeu.equals("1")) && (!choixJeu.equals("2")) && (!choixJeu.equals("9"))) {
+            choixJeu = TypeMenu.getTypeMenu(sc.nextLine());
+            if (choixJeu == null) {
                 System.out.println("Choix invalide - recommencez ! \n");
             } else {
                 choixValide = true;
@@ -62,15 +61,15 @@ public class Menu {
      */
     private void afficheJeuChoisi() {
         switch (choixJeu) {
-            case "1":
+            case PLUS_MOINS:
                 System.out.println("=========================================");
                 System.out.println("         P L U S  ou  M O I N S          ");
                 break;
-            case "2":
+            case MASTERMIND:
                 System.out.println("=========================================");
                 System.out.println("          M A S T E R M I N D            ");
                 break;
-            case "9":
+            case EXIT:
                 System.out.println("Merci et à bientôt\n");
                 break;
             default:
@@ -83,7 +82,6 @@ public class Menu {
      * Affiche les modes disponbles.
      */
     private void afficheMenuChoixMode() {
-        choixMode = "";
         boolean choixValide = false;
 
         do {
@@ -93,8 +91,8 @@ public class Menu {
             System.out.println("2 - Défenseur  - L'ordinateur trouvera-t-il votre code secret ?");
             System.out.println("3 - Duel       - Affrontez la machine !");
             System.out.println("Faites votre choix ou 9 pour terminer -> ");
-            choixMode = sc.nextLine();
-            if ((!choixMode.equals("1")) && (!choixMode.equals("2"))  && (!choixMode.equals("3")) && (!choixMode.equals("9"))) {
+            choixMode = TypeSousMenu.getTypeSousMenu(sc.nextLine());
+            if (choixMode == null) {
                 System.out.println("Choix invalide - recommencez ! \n");
             } else {
                 choixValide = true;
@@ -108,22 +106,22 @@ public class Menu {
      */
     private void afficheModeChoisi() {
         switch (choixMode) {
-            case "1":
+            case CHALLENGER:
                 System.out.println("=========================================");
                 System.out.println(" CHALLENGER : Trouvez la combinaison     ");
                 System.out.println("=========================================");
                 break;
-            case "2":
+            case DEFENSEUR:
                 System.out.println("=========================================");
                 System.out.println(" DEFENSEUR : Saisissez votre code secret ");
                 System.out.println("=========================================");
                 break;
-            case "3":
+            case DUEL:
                 System.out.println("=========================================");
                 System.out.println(" DUEL : Affrontez la machine             ");
                 System.out.println("=========================================");
                 break;
-            case "9":
+            case EXIT:
                 System.out.println("Merci et à bientôt.");
                 break;
             default:
@@ -162,27 +160,27 @@ public class Menu {
         logger.debug("choixJeu : " + choixJeu + " choixMode : " + choixMode);
 
         String reponse = "3";
-        if (choixJeu.equals("1") || choixJeu.equals("2")) { // il y a déjà eu une partie
+        if (choixJeu == TypeMenu.PLUS_MOINS || choixJeu == TypeMenu.MASTERMIND) { // il y a déjà eu une partie
             reponse = this.afficheMenuContinuer();
         }
 
         if (reponse.equals("9")) { // Fin demandée
-            choixJeu = "9";
+            choixJeu = TypeMenu.EXIT;
         } else if (reponse.equals("3")) { // Nouveau jeu
             this.afficheMenuChoixJeu();
             this.afficheJeuChoisi();
 
-            if (!choixJeu.equals("9"))
+            if (!choixJeu.equals(TypeMenu.EXIT))
             {
                 this.afficheMenuChoixMode();
                 this.afficheModeChoisi();
-                if (choixMode.equals("9")){
-                    choixJeu = "9";
+                if (choixMode.equals(TypeSousMenu.EXIT)){
+                    choixJeu = TypeMenu.EXIT;
                 }
             }
             else
             {
-                choixMode = "9"; // Pas indispensabe mais plus homogene
+                choixMode = TypeSousMenu.EXIT; // Pas indispensabe mais plus homogene
             }
         }
     }

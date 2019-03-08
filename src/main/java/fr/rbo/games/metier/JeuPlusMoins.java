@@ -2,6 +2,8 @@ package fr.rbo.games.metier;
 
 import fr.rbo.games.Main;
 import fr.rbo.games.ihm.Result;
+import fr.rbo.games.ihm.TypeMenu;
+import fr.rbo.games.ihm.TypeSousMenu;
 import fr.rbo.games.util.Outils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +19,17 @@ import java.util.Arrays;
 public class JeuPlusMoins extends Jeu{
 
     private static final Logger logger = LogManager.getLogger();
+
+    private int nbLignes;
+    private int nbCases;
+    private int nbValeurs;
+
+    public JeuPlusMoins(String nomDuJeu, String descriptionDuJeu, int nbLignes, int nbCases, int nbValeurs) {
+        super(nomDuJeu, descriptionDuJeu);
+        this.nbLignes = nbLignes;
+        this.nbCases = nbCases;
+        this.nbValeurs = nbValeurs;
+    }
 
     /**
      * Comparaison de la s&eacute;rie &agrave; trouver et de la s&eacute;rie propos&eacute;e par le joueur.
@@ -51,9 +64,9 @@ public class JeuPlusMoins extends Jeu{
      * @return nombrePropose = Tableau de NB_DIGIT &eacute;l&eacute;ments num&eacute;riques, valeurs possibles 0 &agrave; 9.
      */
     private int[] propositionOrdinateur(int[] propositionPrecedente, String resultat){
-        int[] nombrePropose = new int[Main.NB_DIGIT_PLUS_MOINS];
+        int[] nombrePropose = new int[nbCases];
 
-        for (int i=0; i < Main.NB_DIGIT_PLUS_MOINS; i++) {
+        for (int i=0; i < nbCases; i++) {
             if (resultat.charAt(i) == '=') {
                 nombrePropose[i] = propositionPrecedente[i];
             } else if (resultat.charAt(i) == '+') {
@@ -75,65 +88,65 @@ public class JeuPlusMoins extends Jeu{
      *
      * @param valModeJeu choix du mode de jeu.
      */
-    public void lancePlusMoins(String valModeJeu) {
+    public void lancePlusMoins(TypeSousMenu valModeJeu) {
         String solution = "";
         int nbrCoups = 0;
         String resultatHumain = "";
         String resultatOrdinateur = "";
-        int[] nombreATrouver = new int[Main.NB_DIGIT_PLUS_MOINS]; // Valeur du tirage aléatoire
-        int[] nombreATrouverParOrdinateur = new int[Main.NB_DIGIT_PLUS_MOINS]; // Valeur de la proposition humaine
-        int[] propositionPrecedente = new int[Main.NB_DIGIT_PLUS_MOINS]; // Permet de conserver la trace de la proposition précédente de l'ordinateur
-        int[] nombreSaisi =  new int[Main.NB_DIGIT_PLUS_MOINS]; // Saisie de la proposition de l'utilisateur
-        int[] nombrePropose =  new int[Main.NB_DIGIT_PLUS_MOINS]; // Proposition de l'ordinateur
+        int[] nombreATrouver = new int[nbCases]; // Valeur du tirage aléatoire
+        int[] nombreATrouverParOrdinateur = new int[nbCases]; // Valeur de la proposition humaine
+        int[] propositionPrecedente = new int[nbCases]; // Permet de conserver la trace de la proposition précédente de l'ordinateur
+        int[] nombreSaisi =  new int[nbCases]; // Saisie de la proposition de l'utilisateur
+        int[] nombrePropose =  new int[nbCases]; // Proposition de l'ordinateur
 
         Outils outils = new Outils();
         Result result = new Result();
 
         logger.info("lancePlusMoins en mode " + valModeJeu);
 
-        Main.GAGNE = outils.fabriqueChaine("=", Main.NB_DIGIT_PLUS_MOINS);
-        logger.debug("Main.NB_DIGIT : " + Main.NB_DIGIT_PLUS_MOINS + " Main.GAGNE : " + Main.GAGNE);
+        Main.GAGNE = outils.fabriqueChaine("=", nbCases);
+        logger.debug("nbCases : " + nbCases + " Main.GAGNE : " + Main.GAGNE);
 
         switch (valModeJeu) {
-            case "1": // Mode Challenger
-                nombreATrouver = outils.tirageDuNombre(Main.NB_DIGIT_PLUS_MOINS, Main.NB_VALEURS_PLUS_MOINS , Main.DEBUG);
+            case CHALLENGER: // Mode Challenger
+                nombreATrouver = outils.tirageDuNombre(nbCases, nbValeurs, Main.DEBUG);
 
                 do {
-                    nombreSaisi = outils.saisieNombre(Main.NB_DIGIT_PLUS_MOINS, Main.NB_VALEURS_PLUS_MOINS, PROPOSITION, Main.DEBUG);
-                    resultatHumain = compareSaisie(nombreATrouver, nombreSaisi, Main.NB_DIGIT_PLUS_MOINS);
+                    nombreSaisi = outils.saisieNombre(nbCases, nbValeurs, PROPOSITION, Main.DEBUG);
+                    resultatHumain = compareSaisie(nombreATrouver, nombreSaisi, nbCases);
                     result.afficheReponse(HUMAIN, 0,0, nombreSaisi, resultatHumain);
                     nbrCoups++;
                 }
-                while (!resultatHumain.equals(Main.GAGNE) && nbrCoups < Main.ESSAIS_MAX_PLUS_MOINS);
+                while (!resultatHumain.equals(Main.GAGNE) && nbrCoups < nbLignes);
                 solution = Arrays.toString(nombreATrouver).replace(", ", "");
-                result.afficheRapport("1",valModeJeu,resultatHumain.equals(Main.GAGNE),resultatHumain.equals(Main.GAGNE),nbrCoups,solution);
+                result.afficheRapport(TypeMenu.PLUS_MOINS,valModeJeu,resultatHumain.equals(Main.GAGNE),resultatHumain.equals(Main.GAGNE),nbrCoups,solution);
                 break;
-            case "2": // Mode défenseur
-                nombreATrouverParOrdinateur = outils.saisieNombre(Main.NB_DIGIT_PLUS_MOINS, Main.NB_VALEURS_PLUS_MOINS, SECRET, Main.DEBUG);
+            case DEFENSEUR: // Mode défenseur
+                nombreATrouverParOrdinateur = outils.saisieNombre(nbCases, nbValeurs, SECRET, Main.DEBUG);
                 resultatOrdinateur = Main.GAGNE;
 
                 do {
                     nombrePropose = propositionOrdinateur (propositionPrecedente, resultatOrdinateur);
-                    resultatOrdinateur = compareSaisie(nombreATrouverParOrdinateur, nombrePropose,Main.NB_DIGIT_PLUS_MOINS);
+                    resultatOrdinateur = compareSaisie(nombreATrouverParOrdinateur, nombrePropose,nbCases);
                     result.afficheReponse(ORDINATEUR, 0,0, nombrePropose, resultatOrdinateur);
                     propositionPrecedente = nombrePropose;
                     nbrCoups++;
                 }
-                while (!resultatOrdinateur.equals(Main.GAGNE) && nbrCoups < Main.ESSAIS_MAX_PLUS_MOINS);
+                while (!resultatOrdinateur.equals(Main.GAGNE) && nbrCoups < nbLignes);
                 solution = Arrays.toString(nombreATrouverParOrdinateur).replace(", ", "");
-                result.afficheRapport("1",valModeJeu,resultatOrdinateur.equals(Main.GAGNE),resultatOrdinateur.equals(Main.GAGNE),nbrCoups,solution);
+                result.afficheRapport(TypeMenu.PLUS_MOINS,valModeJeu,resultatOrdinateur.equals(Main.GAGNE),resultatOrdinateur.equals(Main.GAGNE),nbrCoups,solution);
                 break;
-            case "3": // Mode Duel
-                nombreATrouver = outils.tirageDuNombre(Main.NB_DIGIT_PLUS_MOINS, Main.NB_VALEURS_PLUS_MOINS, Main.DEBUG);
-                nombreATrouverParOrdinateur = outils.saisieNombre(Main.NB_DIGIT_PLUS_MOINS, Main.NB_VALEURS_PLUS_MOINS, SECRET, Main.DEBUG);
+            case DUEL: // Mode Duel
+                nombreATrouver = outils.tirageDuNombre(nbCases, nbValeurs, Main.DEBUG);
+                nombreATrouverParOrdinateur = outils.saisieNombre(nbCases, nbValeurs, SECRET, Main.DEBUG);
                 resultatOrdinateur = Main.GAGNE;
 
                 do {
-                    nombreSaisi = outils.saisieNombre(Main.NB_DIGIT_PLUS_MOINS, Main.NB_VALEURS_PLUS_MOINS, PROPOSITION, Main.DEBUG);
-                    resultatHumain = compareSaisie(nombreATrouver, nombreSaisi,Main.NB_DIGIT_PLUS_MOINS);
+                    nombreSaisi = outils.saisieNombre(nbCases, nbValeurs, PROPOSITION, Main.DEBUG);
+                    resultatHumain = compareSaisie(nombreATrouver, nombreSaisi,nbCases);
                     result.afficheReponse(HUMAIN, 0,0, nombreSaisi, resultatHumain);
                     nombrePropose = propositionOrdinateur (propositionPrecedente, resultatOrdinateur);
-                    resultatOrdinateur = compareSaisie(nombreATrouverParOrdinateur, nombrePropose, Main.NB_DIGIT_PLUS_MOINS);
+                    resultatOrdinateur = compareSaisie(nombreATrouverParOrdinateur, nombrePropose, nbCases);
                     result.afficheReponse(ORDINATEUR, 0,0, nombrePropose, resultatOrdinateur);
 
                     propositionPrecedente = nombrePropose;
@@ -141,7 +154,7 @@ public class JeuPlusMoins extends Jeu{
                 }
                 while (!resultatHumain.equals(Main.GAGNE) && !resultatOrdinateur.equals(Main.GAGNE) );
                 solution = Arrays.toString(nombreATrouver).replace(", ", "");
-                result.afficheRapport("1",valModeJeu,resultatHumain.equals(Main.GAGNE),resultatOrdinateur.equals(Main.GAGNE),nbrCoups,solution);
+                result.afficheRapport(TypeMenu.PLUS_MOINS,valModeJeu,resultatHumain.equals(Main.GAGNE),resultatOrdinateur.equals(Main.GAGNE),nbrCoups,solution);
                 break;
             default:
                 System.err.println("Mode de jeu [" + valModeJeu + "] inconnu ... ERREUR valeur incorrecte !");

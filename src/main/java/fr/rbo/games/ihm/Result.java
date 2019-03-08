@@ -62,7 +62,7 @@ public class Result {
      * @param nbrCoups nombre de tentatives jou&eacute;es
      * @param solution combinaison secr&egrave;te &agrave; trouver
      */
-    public void afficheRapport(String jeu, String mode, boolean vainqueurHumain, boolean vainqueurOrdinateur, int nbrCoups, String solution){
+    public void afficheRapport(TypeMenu jeu, TypeSousMenu mode, boolean vainqueurHumain, boolean vainqueurOrdinateur, int nbrCoups, String solution){
         String rapport = "";
 /*
         switch (jeu){
@@ -83,7 +83,7 @@ public class Result {
         System.out.println("     * * *  Partie terminée  * * *       ");
         System.out.println("        * * * * * * * * * * * *          ");
         switch (mode) {
-            case "1": // Challenger
+            case CHALLENGER: // Challenger
                 if (vainqueurHumain) {
                     rapport = "Gagné en " + nbrCoups + " coups. La solution est : ";
                 } else {
@@ -91,7 +91,7 @@ public class Result {
                 }
                 rapport = rapport + solution + ".";
                 break;
-            case "2": // Defenseur
+            case DEFENSEUR: // Defenseur
                 if (vainqueurHumain) {
                     rapport = "L'ordinateur gagne, il a trouvé en " + nbrCoups;
                 } else {
@@ -99,7 +99,7 @@ public class Result {
                 }
                 rapport = rapport + " coups votre combinaison secrete : " + solution + ".";
                 break;
-            case "3": // Duel
+            case DUEL: // Duel
                 if ((vainqueurHumain) && (vainqueurOrdinateur)) {
                     rapport = "Egalité en " + nbrCoups + " coups." ;
                 } else if (vainqueurHumain){
