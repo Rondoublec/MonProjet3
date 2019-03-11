@@ -25,7 +25,7 @@ Le <b>config.properties</b> qui contient les paramètres des jeux, ci-dessous le
 * nbCasesPlusMoins=4 <i>(Min 2 / Max 9)</i>
 * nbEssaisPlusMoins=5 <i>(Min 2 / Max 20)</i>
 * nbValeursPlusMoins=10 <i>(Min 5 / Max 10) dans l'exemple, valeurs pour chaque chiffre de 0 à 9</i>
-* nbCasesMastermind=4 <i>(Min 2 / Max 5)</i>
+* nbCasesMastermind=4 <i>(Min 2 / Max 6)</i>
 * nbEssaisMastermind=8 <i>(Min 2 / Max 20)</i>
 * nbValeursMastermind=6 <i>(Min 4 / Max 10) dans l'exemple 6 couleurs matérialisées par des valeurs pour chaque chiffre de 0 à 5</i>
 * modeDev=false <i>(mode développeur pour afficher la solution à trouver <b>false</b> ou <b>true</b>)</i>
@@ -34,7 +34,11 @@ Si ce ficher n'existe pas, il est créé avec les valeurs par defaut au 1er lanc
 Il est aussi possible d'activer le mode développeur en lançant : <b>java -jar games-jar-with-dependencies.jar dev </b> et de le désactiver avec : <b>java -jar games-jar-with-dependencies.jar nodev</b>.
 
 ## Divers
-Contenu des dossiers
+Gestion des dépendances : <br> 
+Utilisation de <b>Maven</b>.<br>
+A la racine du projet lancer <b>mvn clean package</b> pour builder l'application. Les jar (avec et sans dépendances embarquées) sont à la racine du répertoire <b>target</b>.
+
+Contenu des dossiers : 
 * target\ jar
 * doc\ Documentation 
   + JavaDoc https://rondoublec.github.io/MonProjet3/JavaDoc/

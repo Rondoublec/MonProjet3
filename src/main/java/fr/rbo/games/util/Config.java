@@ -173,7 +173,7 @@ public class Config {
         if (nbCasesPlusMoins < 2|| nbCasesPlusMoins > 9) {
             nbCasesPlusMoins = 4;
         }
-        if (nbCasesMastermind < 2|| nbCasesMastermind > 5) {
+        if (nbCasesMastermind < 2|| nbCasesMastermind > 6) {
             nbCasesMastermind = 4;
         }
         if (nbValeursPlusMoins < 5||nbValeursPlusMoins > 10) {
@@ -264,7 +264,7 @@ public class Config {
             nbCasesPlusMoins = 4;
             sauvegardeConfig();
         }
-        if (nbCasesMastermind < 2|| nbCasesMastermind > 5) {
+        if (nbCasesMastermind < 2|| nbCasesMastermind > 6) {
             nbCasesMastermind = 4;
             sauvegardeConfig();
         }
