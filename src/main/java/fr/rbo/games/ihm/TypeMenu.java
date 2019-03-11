@@ -1,9 +1,21 @@
 package fr.rbo.games.ihm;
 
-public enum TypeMenu {
 
+/**
+ * Choix du menu principal
+ */
+public enum TypeMenu {
+    /**
+     * Choix du jeu de recherche plus ou moins
+     */
     PLUS_MOINS("1"),
+    /**
+     * Choix du jeu Mastermind
+     */
     MASTERMIND("2"),
+    /**
+     * Choix Terminer l'application
+     */
     EXIT("9");
 
     String choix;

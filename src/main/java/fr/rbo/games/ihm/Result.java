@@ -64,21 +64,6 @@ public class Result {
      */
     public void afficheRapport(TypeMenu jeu, TypeSousMenu mode, boolean vainqueurHumain, boolean vainqueurOrdinateur, int nbrCoups, String solution){
         String rapport = "";
-/*
-        switch (jeu){
-            case "1": // Recherche Plus ou Moins
-                System.out.println("         P L U S  ou  M O I N S          ");
-                break;
-            case "2": // Mastermind
-                System.out.println("          M A S T E R M I N D            ");
-                break;
-            default:
-                System.err.println("Jeu ["+ jeu + "] inconnu ... Fin anormale");
-                logger.error("Jeu ["+ jeu + "] inconnu ... Fin anormale");
-                System.exit(9);
-                break;
-        }
-*/
         System.out.println("        * * * * * * * * * * * *          ");
         System.out.println("     * * *  Partie terminée  * * *       ");
         System.out.println("        * * * * * * * * * * * *          ");
